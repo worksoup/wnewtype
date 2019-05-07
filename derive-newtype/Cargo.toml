@@ -1,0 +1,17 @@
+[package]
+name = "derive-newtype"
+version = "0.1.0"
+authors = ["Josh Robson Chase <josh@robsonchase.com>"]
+edition = "2018"
+license = "MIT/Apache-2.0"
+description = "Proc-macro implementation for `newtype`"
+documentation = "https://docs.rs/derive-newtype"
+repository = "https://gitlab.com/jrobsonchase/newtype"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "0.4.29"
+syn = "0.15.33"
+quote = "0.6.12"

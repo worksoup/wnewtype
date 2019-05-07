@@ -1,0 +1,14 @@
+[workspace]
+
+[package]
+name = "newtype"
+version = "0.1.0"
+authors = ["Josh Robson Chase <josh@robsonchase.com>"]
+edition = "2018"
+license = "MIT/Apache-2.0"
+description = "Custom Derive to give tuple structs newtype semantics"
+documentation = "https://docs.rs/newtype"
+repository = "https://gitlab.com/jrobsonchase/newtype"
+
+[dependencies]
+derive-newtype = { path = "./derive-newtype", version = "0.1.0" }
