@@ -60,7 +60,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
     };
 
     let deref = quote! {
-        impl #impl_generics ::std::ops::Deref for #name #ty_generics #where_clause {
+        impl #impl_generics ::core::ops::Deref for #name #ty_generics #where_clause {
             type Target = #field_ty;
 
             fn deref(&self) -> &Self::Target {
@@ -70,7 +70,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
     };
 
     let deref_mut = quote! {
-        impl #impl_generics ::std::ops::DerefMut for #name #ty_generics #where_clause {
+        impl #impl_generics ::core::ops::DerefMut for #name #ty_generics #where_clause {
             fn deref_mut(&mut self) -> &mut Self::Target {
                 &mut self.0
             }

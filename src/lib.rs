@@ -1,9 +1,10 @@
 #![warn(missing_docs)]
+#![no_std]
 
 //! NewType semantics for single-field tuple structs.
 //!
 
-use std::ops::Deref;
+use core::ops::Deref;
 
 /// Treat a single-field tuple struct as a "newtype"
 ///
