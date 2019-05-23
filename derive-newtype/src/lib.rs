@@ -51,10 +51,10 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
         }
     };
 
-    let other_from = quote! {
-        impl #impl_generics From<#name #ty_generics> for #field_ty #where_clause {
-            fn from(other: #name #ty_generics) -> #field_ty {
-                other.0
+    let into = quote! {
+        impl #impl_generics Into<#field_ty> for #name #ty_generics #where_clause {
+            fn into(self) -> #field_ty {
+                self.0
             }
         }
     };
@@ -86,6 +86,6 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
     };
 
     quote! {
-        #from #other_from #deref #deref_mut #into_inner
+        #from #into #deref #deref_mut #into_inner
     }
 }
