@@ -78,8 +78,8 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
     };
 
     let into_inner = quote! {
-        impl #impl_generics ::newtype::IntoInner for #name #ty_generics #where_clause {
-            fn into_inner(self) -> Self::Target {
+        impl #impl_generics #name #ty_generics #where_clause {
+            pub fn into_inner(self) -> #field_ty {
                 self.0
             }
         }
