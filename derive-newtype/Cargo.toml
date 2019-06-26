@@ -1,6 +1,6 @@
 [package]
 name = "derive-newtype"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["Josh Robson Chase <josh@robsonchase.com>"]
 edition = "2018"
 license = "MIT/Apache-2.0"
@@ -12,6 +12,6 @@ repository = "https://gitlab.com/jrobsonchase/newtype"
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "0.4.29"
-syn = "0.15.33"
+proc-macro2 = "0.4.30"
+syn = "0.15.38"
 quote = "0.6.12"
