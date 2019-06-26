@@ -71,6 +71,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
 
     let into_inner = quote! {
         impl #impl_generics #name #ty_generics #where_clause {
+            /// Unwrap to the inner type
             pub fn into_inner(self) -> #field_ty {
                 self.0
             }
