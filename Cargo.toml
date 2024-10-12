@@ -11,4 +11,4 @@ documentation = "https://docs.rs/wnewtype"
 repository = "https://github.com/worksoup/wnewtype"
 
 [dependencies]
-derive-wnewtype = { path = "derive-newtype" }
+derive-wnewtype = { path = "derive-wnewtype" }
