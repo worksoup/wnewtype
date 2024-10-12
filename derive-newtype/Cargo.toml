@@ -1,17 +1,18 @@
 [package]
-name = "derive-newtype"
-version = "0.2.3"
-authors = ["Josh Robson Chase <josh@robsonchase.com>"]
-edition = "2018"
-license = "MIT/Apache-2.0"
-description = "Proc-macro implementation for `newtype`"
-documentation = "https://docs.rs/derive-newtype"
-repository = "https://gitlab.com/jrobsonchase/newtype"
+name = "derive-wnewtype"
+version = "0.0.1"
+authors = ["worksoup"]
+edition = "2021"
+license = "MIT"
+description = "`wnewtype` 实现。"
+documentation = "https://docs.rs/derive-wnewtype"
+repository = "https://github.com/worksoup/wnewtype"
 
 [lib]
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "0.4.30"
-syn = "0.15.38"
-quote = "0.6.12"
+zdcz = {git = "https://github.com/worksoup/zdcz.git"}
+proc-macro2 = "1"
+syn = "2"
+quote = "1"

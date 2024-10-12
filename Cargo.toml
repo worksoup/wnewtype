@@ -1,14 +1,14 @@
 [workspace]
 
 [package]
-name = "newtype"
-version = "0.2.1"
-authors = ["Josh Robson Chase <josh@robsonchase.com>"]
-edition = "2018"
-license = "MIT/Apache-2.0"
-description = "Custom Derive to give tuple structs newtype semantics"
-documentation = "https://docs.rs/newtype"
-repository = "https://gitlab.com/jrobsonchase/newtype"
+name = "wnewtype"
+version = "0.0.1"
+authors = ["worksoup"]
+edition = "2021"
+license = "MIT"
+description = "快捷实现 newtype 模式。"
+documentation = "https://docs.rs/wnewtype"
+repository = "https://github.com/worksoup/wnewtype"
 
 [dependencies]
-derive-newtype = { path = "./derive-newtype", version = "0.2.0" }
+derive-wnewtype = { path = "derive-newtype" }

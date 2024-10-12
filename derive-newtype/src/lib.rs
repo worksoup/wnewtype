@@ -1,5 +1,4 @@
-//! Proc-macro implementation for `newtype`. You probably shouldn't use this
-//! crate directly.
+//! `wnewtype` 实现。 你不应直接使用此 crate.
 
 extern crate proc_macro;
 
@@ -7,15 +6,18 @@ use proc_macro::TokenStream;
 
 use syn::{
     Data,
-    Fields,
+    Field,
 };
 
 use quote::quote;
+use zdcz::{
+    fill_default_fields,
+    type_is_phantom,
+};
 
-/// Treat a single-field tuple struct as a "newtype"
+/// 为结构体实现 `newtype` 模式。
 ///
-/// This will implement `From`, `Into`, `Deref`, and `DerefMut` for the inner
-/// type.
+/// 这将为内含值实现 `From`, `Into`, `Deref` 和 `DerefMut` 特型。
 #[proc_macro_derive(NewType)]
 pub fn newtype(input: TokenStream) -> TokenStream {
     let input = syn::parse::<syn::DeriveInput>(input).expect("syn parse derive input");
@@ -29,24 +31,57 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
 
     let st = match input.data {
         Data::Struct(st) => st,
-        _ => panic!("NewType can only be derived for single-field tuple structs"),
+        _ => panic!("NewType can only be derived for structs"),
     };
-
-    let fields = match st.fields {
-        Fields::Unnamed(fields) => fields,
-        _ => panic!("NewType can only be derived for single-field tuple structs"),
-    };
-
-    if fields.unnamed.len() != 1 {
-        panic!("NewType can only be derived for single-field tuple structs")
+    let (len, th, field_name) =
+        zdcz::find_needed_field_index(&st.fields, |field: &Field| !type_is_phantom(field));
+    if len != 1 {
+        panic!("NewType can only be derived for single-valued-field structs")
     }
-
-    let field_ty = fields.unnamed.into_iter().nth(0).unwrap().ty;
+    let th = th.to_string().parse::<proc_macro2::TokenStream>().unwrap();
+    let field = st.fields.iter().next().unwrap();
+    let field_ty = &field.ty;
+    let (from, init) = fill_default_fields(
+        &st.fields,
+        |f| !type_is_phantom(f),
+        &"other".parse().unwrap(),
+    );
+    let from = quote! {
+        #(#init)*
+        #name
+        #from
+    };
+    let (deref, deref_mut, into_inner) = if let Some(field_name) = field_name {
+        let deref = quote! {
+            &self.#field_name
+        };
+        let deref_mut = quote! {
+            &mut self.#field_name
+        };
+        let into_inner = quote! {
+            self.#field_name
+        };
+        (deref, deref_mut, into_inner)
+    } else {
+        let deref = quote! {
+            &self.
+            #th
+        };
+        let deref_mut = quote! {
+            &mut self.
+            #th
+        };
+        let into_inner = quote! {
+            self.
+            #th
+        };
+        (deref, deref_mut, into_inner)
+    };
 
     let from = quote! {
         impl #impl_generics From<#field_ty> for #name #ty_generics #where_clause {
             fn from(other: #field_ty) -> #name #ty_generics {
-                #name (other)
+                #from
             }
         }
     };
@@ -56,7 +91,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
             type Target = #field_ty;
 
             fn deref(&self) -> &Self::Target {
-                &self.0
+                #deref
             }
         }
     };
@@ -64,7 +99,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
     let deref_mut = quote! {
         impl #impl_generics ::core::ops::DerefMut for #name #ty_generics #where_clause {
             fn deref_mut(&mut self) -> &mut Self::Target {
-                &mut self.0
+                #deref_mut
             }
         }
     };
@@ -73,7 +108,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
         impl #impl_generics #name #ty_generics #where_clause {
             /// Unwrap to the inner type
             pub fn into_inner(self) -> #field_ty {
-                self.0
+                #into_inner
             }
         }
     };

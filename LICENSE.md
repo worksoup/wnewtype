@@ -1,3 +1,5 @@
+此处原样提供 newtype 原仓库的 MIT 许可证：
+```
 Copyright (c) 2016 Josh Robson Chase
 
 Permission is hereby granted, free of charge, to any
@@ -23,3 +25,5 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+```
+本项目使用 MIT 许可证，见[LICENSE](./LICENSE)

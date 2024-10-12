@@ -1,4 +1,4 @@
-use newtype::NewType;
+use wnewtype::NewType;
 
 struct Bar<T>(T);
 

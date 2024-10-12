@@ -1,11 +1,10 @@
 #![warn(missing_docs)]
 #![no_std]
 
-//! NewType semantics for single-field tuple structs.
+//! 快捷实现 newtype 模式。
 //!
 
-/// Treat a single-field tuple struct as a "newtype"
+/// 为结构体实现 `newtype` 模式。
 ///
-/// This will implement `From`, `Into`, `Deref`, and `DerefMut` for the inner
-/// type.
-pub use derive_newtype::NewType;
+/// 这将为内含值实现 `From`, `Into`, `Deref` 和 `DerefMut` 特型。
+pub use derive_wnewtype::NewType;
