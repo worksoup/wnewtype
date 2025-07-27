@@ -4,16 +4,10 @@ extern crate proc_macro;
 
 use proc_macro::TokenStream;
 
-use syn::{
-    Data,
-    Field,
-};
+use syn::{Data, Field};
 
 use quote::quote;
-use zdcz::{
-    fill_default_fields,
-    type_is_phantom,
-};
+use zdcz::{fill_default_fields, type_is_phantom};
 
 /// 为结构体实现 `newtype` 模式。
 ///
@@ -80,6 +74,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
 
     let from = quote! {
         impl #impl_generics From<#field_ty> for #name #ty_generics #where_clause {
+            #[inline]
             fn from(other: #field_ty) -> #name #ty_generics {
                 #from
             }
@@ -89,7 +84,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
     let deref = quote! {
         impl #impl_generics ::core::ops::Deref for #name #ty_generics #where_clause {
             type Target = #field_ty;
-
+            #[inline]
             fn deref(&self) -> &Self::Target {
                 #deref
             }
@@ -98,6 +93,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
 
     let deref_mut = quote! {
         impl #impl_generics ::core::ops::DerefMut for #name #ty_generics #where_clause {
+            #[inline]
             fn deref_mut(&mut self) -> &mut Self::Target {
                 #deref_mut
             }
@@ -107,6 +103,7 @@ fn gen_impl(input: syn::DeriveInput) -> proc_macro2::TokenStream {
     let into_inner = quote! {
         impl #impl_generics #name #ty_generics #where_clause {
             /// Unwrap to the inner type
+            #[inline]
             pub fn into_inner(self) -> #field_ty {
                 #into_inner
             }
