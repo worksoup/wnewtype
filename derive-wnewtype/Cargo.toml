@@ -12,7 +12,6 @@ repository = "https://github.com/worksoup/wnewtype"
 proc-macro = true
 
 [dependencies]
-zdcz = {git = "https://github.com/worksoup/zdcz.git"}
 proc-macro2 = "1"
 syn = "2"
 quote = "1"
