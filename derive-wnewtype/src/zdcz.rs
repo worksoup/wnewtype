@@ -44,9 +44,9 @@ pub fn fill_default_fields(
                 tokens.extend(quote!(#value_name,));
             }
         } else if let Some(field_name) = field.ident.as_ref() {
-            tokens.extend(quote!(#field_name: Default::default(),))
+            tokens.extend(quote!(#field_name: ::core::default::Default::default(),))
         } else {
-            tokens.extend(quote!(Default::default(),));
+            tokens.extend(quote!(::core::default::Default::default(),));
         }
     }
 
